@@ -1,0 +1,1063 @@
+{
+  "plan_version": "1.0.0",
+  "project_metadata": {
+    "source_language": "C#",
+    "target_language": "Rust",
+    "source_project": "SharpView",
+    "description": "Active Directory reconnaissance tool - .NET port of PowerView",
+    "total_source_files": 165,
+    "total_source_loc": 17319,
+    "target_platforms": [
+      "x86_64-pc-windows-msvc",
+      "x86_64-unknown-linux-gnu"
+    ],
+    "authorization_context": "Defensive security, authorized penetration testing, CTF challenges, security research"
+  },
+  "component_map": [
+    {
+      "category": "core_logic",
+      "files": [
+        {
+          "source_path": "SharpView/PowerView.cs",
+          "namespace": "SharpView",
+          "estimated_loc": 9691,
+          "rust_module": "src/powerview/mod.rs",
+          "public_methods_count": 125,
+          "description": "Core business logic - 100+ public static methods for AD enumeration",
+          "complexity": "very_high",
+          "dependencies": [
+            "System.DirectoryServices",
+            "System.DirectoryServices.ActiveDirectory",
+            "System.Security.AccessControl",
+            "System.Management",
+            "System.IdentityModel"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "cli_entrypoint",
+      "files": [
+        {
+          "source_path": "SharpView/Program.cs",
+          "namespace": "SharpView",
+          "estimated_loc": 525,
+          "rust_module": "src/main.rs",
+          "description": "CLI entry point with reflection-based method routing",
+          "complexity": "medium",
+          "dependencies": [
+            "System.Reflection"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "native_bindings",
+      "files": [
+        {
+          "source_path": "SharpView/Utils/NativeMethods.cs",
+          "namespace": "SharpView.Utils",
+          "estimated_loc": 397,
+          "rust_module": "src/native/mod.rs",
+          "description": "28 P/Invoke declarations for Windows API (Netapi32, Advapi32, Wtsapi32, Kernel32, Mpr)",
+          "complexity": "high",
+          "pinvoke_count": 28,
+          "target_dlls": [
+            "Netapi32.dll",
+            "Advapi32.dll",
+            "Wtsapi32.dll",
+            "Kernel32.dll",
+            "Mpr.dll"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "arguments",
+      "file_count": 80,
+      "total_loc": 3899,
+      "rust_module": "src/args/mod.rs",
+      "description": "CLI parameter DTOs - 1:1 mapping with PowerView methods",
+      "complexity": "low",
+      "pattern": "Simple POCO classes with validation in setters, alias properties",
+      "sample_files": [
+        {
+          "source_path": "SharpView/Arguments/Args_Get_Domain.cs",
+          "rust_module": "src/args/get_domain.rs"
+        },
+        {
+          "source_path": "SharpView/Arguments/Args_Get_DomainUser.cs",
+          "rust_module": "src/args/get_domain_user.rs"
+        },
+        {
+          "source_path": "SharpView/Arguments/Args_Add_DomainObjectAcl.cs",
+          "rust_module": "src/args/add_domain_object_acl.rs"
+        }
+      ]
+    },
+    {
+      "category": "return_types",
+      "file_count": 47,
+      "total_loc": 1298,
+      "rust_module": "src/returns/mod.rs",
+      "description": "Data models and return types",
+      "complexity": "medium",
+      "pattern": "Classes with inheritance and interface implementations",
+      "sample_files": [
+        {
+          "source_path": "SharpView/Returns/ResolvedSID.cs",
+          "rust_module": "src/returns/resolved_sid.rs",
+          "note": "Base class for many return types"
+        },
+        {
+          "source_path": "SharpView/Returns/ACL.cs",
+          "rust_module": "src/returns/acl.rs",
+          "note": "Extends ResolvedSID"
+        },
+        {
+          "source_path": "SharpView/Returns/ExplicitCredentialLogonEvent.cs",
+          "rust_module": "src/returns/explicit_credential_logon_event.rs",
+          "note": "Implements IWinEvent interface"
+        }
+      ]
+    },
+    {
+      "category": "enums",
+      "file_count": 17,
+      "total_loc": 800,
+      "rust_module": "src/enums/mod.rs",
+      "description": "Enumeration types including COM mappings",
+      "complexity": "low",
+      "sample_files": [
+        {
+          "source_path": "SharpView/Enums/ADSNameType.cs",
+          "rust_module": "src/enums/ads_name_type.rs",
+          "note": "Maps to ActiveDs COM library"
+        },
+        {
+          "source_path": "SharpView/Enums/UACEnum.cs",
+          "rust_module": "src/enums/uac.rs",
+          "note": "User Account Control flags"
+        },
+        {
+          "source_path": "SharpView/Enums/DnsRecordType.cs",
+          "rust_module": "src/enums/dns_record_type.rs",
+          "note": "71 DNS record type variants"
+        }
+      ]
+    },
+    {
+      "category": "utilities",
+      "file_count": 16,
+      "total_loc": 1363,
+      "rust_module": "src/utils/mod.rs",
+      "description": "Helper functions, extension methods, type converters",
+      "complexity": "medium",
+      "sample_files": [
+        {
+          "source_path": "SharpView/Utils/Logger.cs",
+          "rust_module": "src/utils/logger.rs",
+          "estimated_loc": 54
+        },
+        {
+          "source_path": "SharpView/Utils/ObjectDumper.cs",
+          "rust_module": "src/utils/object_dumper.rs",
+          "estimated_loc": 254,
+          "note": "Uses reflection for object introspection"
+        },
+        {
+          "source_path": "SharpView/Utils/StringExtension.cs",
+          "rust_module": "src/utils/string_ext.rs"
+        },
+        {
+          "source_path": "SharpView/Utils/WmiWrapper.cs",
+          "rust_module": "src/utils/wmi.rs",
+          "estimated_loc": 140,
+          "note": "WMI query wrapper"
+        }
+      ]
+    },
+    {
+      "category": "interfaces",
+      "file_count": 2,
+      "total_loc": 50,
+      "rust_module": "src/traits/mod.rs",
+      "description": "Interface contracts",
+      "complexity": "low",
+      "files": [
+        {
+          "source_path": "SharpView/Interfaces/IDomainTrust.cs",
+          "rust_module": "src/traits/domain_trust.rs"
+        },
+        {
+          "source_path": "SharpView/Interfaces/IWinEvent.cs",
+          "rust_module": "src/traits/win_event.rs"
+        }
+      ]
+    }
+  ],
+  "public_api_map": {
+    "core_methods": {
+      "description": "125 public static methods in PowerView class",
+      "samples": [
+        {
+          "csharp_signature": "public static System.DirectoryServices.ActiveDirectory.Domain Get_Domain(Args_Get_Domain args = null)",
+          "rust_signature": "pub fn get_domain(args: Option<ArgGetDomain>) -> Result<Domain, SharpViewError>",
+          "ownership_notes": "Args owned, Domain returned. No shared mutable state.",
+          "location": "PowerView.cs:413"
+        },
+        {
+          "csharp_signature": "public static DirectorySearcher Get_DomainSearcher(Args_Get_DomainSearcher args = null)",
+          "rust_signature": "pub fn get_domain_searcher(args: Option<ArgGetDomainSearcher>) -> Result<DomainSearcher, SharpViewError>",
+          "ownership_notes": "Returns searcher wrapper with lifetime bound to connection",
+          "location": "PowerView.cs:32",
+          "note": "Private in C#, may expose as public or keep internal"
+        },
+        {
+          "csharp_signature": "public static IEnumerable<DomainUser> Get_DomainUser(Args_Get_DomainUser args = null)",
+          "rust_signature": "pub fn get_domain_user(args: Option<ArgGetDomainUser>) -> Result<Vec<DomainUser>, SharpViewError>",
+          "ownership_notes": "Returns owned Vec, iterator-based alternative for memory efficiency",
+          "note": "C# uses yield return for lazy evaluation; Rust can use Iterator trait"
+        },
+        {
+          "csharp_signature": "public static void Add_DomainObjectAcl(Args_Add_DomainObjectAcl args = null)",
+          "rust_signature": "pub fn add_domain_object_acl(args: ArgAddDomainObjectAcl) -> Result<(), SharpViewError>",
+          "ownership_notes": "Mutates remote state, no return value",
+          "note": "Requires elevated privileges"
+        },
+        {
+          "csharp_signature": "public static bool Test_AdminAccess(Args_Test_AdminAccess args = null)",
+          "rust_signature": "pub fn test_admin_access(args: Option<ArgTestAdminAccess>) -> Result<bool, SharpViewError>",
+          "ownership_notes": "Returns boolean, args consumed"
+        },
+        {
+          "csharp_signature": "public static void Invoke_UserImpersonation(Args_Invoke_UserImpersonation args)",
+          "rust_signature": "pub fn invoke_user_impersonation(args: ArgInvokeUserImpersonation) -> Result<ImpersonationGuard, SharpViewError>",
+          "ownership_notes": "Returns RAII guard that reverts on drop",
+          "security_note": "Uses LogonUser + ImpersonateLoggedOnUser P/Invoke; requires SeImpersonatePrivilege"
+        }
+      ]
+    },
+    "argument_types": {
+      "description": "80 argument classes map to Rust structs with builder pattern",
+      "samples": [
+        {
+          "csharp_type": "Args_Get_Domain",
+          "rust_type": "ArgGetDomain",
+          "rust_signature": "pub struct ArgGetDomain { pub domain: Option<String>, pub credential: Option<NetworkCredential> }",
+          "ownership_notes": "All fields owned, no references"
+        },
+        {
+          "csharp_type": "Args_Get_DomainUser",
+          "rust_type": "ArgGetDomainUser",
+          "fields": {
+            "identity": "Option<Vec<String>>",
+            "domain": "Option<String>",
+            "ldap_filter": "Option<String>",
+            "properties": "Option<Vec<String>>",
+            "search_base": "Option<String>",
+            "server": "Option<String>",
+            "search_scope": "Option<SearchScope>",
+            "result_page_size": "u32 (default: 200)",
+            "credential": "Option<NetworkCredential>"
+          },
+          "validation": "result_page_size must be 1-10000; enforced in builder"
+        }
+      ]
+    },
+    "return_types": {
+      "description": "47 return type classes map to Rust structs with traits",
+      "samples": [
+        {
+          "csharp_type": "ResolvedSID (base class)",
+          "rust_type": "ResolvedSid",
+          "fields": {
+            "identity_reference_name": "Option<String>",
+            "identity_reference_domain": "Option<String>",
+            "identity_reference_dn": "Option<String>",
+            "identity_reference_class": "Option<String>"
+          },
+          "note": "Base struct, flattened into derived types"
+        },
+        {
+          "csharp_type": "ACL : ResolvedSID",
+          "rust_type": "Acl",
+          "rust_signature": "pub struct Acl { #[serde(flatten)] pub resolved_sid: ResolvedSid, pub ace_qualifier: Option<String>, pub ace_type: Option<String>, pub active_directory_rights: Option<String>, pub object_dn: Option<String>, pub object_sid: Option<String> }",
+          "ownership_notes": "Composition via flatten; all owned strings"
+        },
+        {
+          "csharp_type": "ExplicitCredentialLogonEvent : IWinEvent",
+          "rust_type": "ExplicitCredentialLogonEvent",
+          "rust_signature": "impl WinEvent for ExplicitCredentialLogonEvent",
+          "ownership_notes": "Implements trait; all fields owned"
+        }
+      ]
+    },
+    "native_methods": {
+      "description": "28 P/Invoke declarations map to unsafe FFI bindings",
+      "samples": [
+        {
+          "csharp_signature": "[DllImport(\"Netapi32.dll\")] public static extern uint DsEnumerateDomainTrusts(string ServerName, uint Flags, out IntPtr Domains, out uint DomainCount)",
+          "rust_signature": "pub unsafe fn ds_enumerate_domain_trusts(server_name: *const u16, flags: u32, domains: *mut *mut DsDomainTrusts, domain_count: *mut u32) -> u32",
+          "crate": "windows::Win32::NetworkManagement::NetManagement",
+          "ownership_notes": "Caller must free `domains` with NetApiBufferFree",
+          "safety": "Wrap in safe abstraction that enforces proper cleanup"
+        },
+        {
+          "csharp_signature": "[DllImport(\"advapi32.dll\")] public static extern bool LogonUser(string userName, string domain, string password, LogonType logonType, LogonProvider logonProvider, ref IntPtr token)",
+          "rust_signature": "pub unsafe fn logon_user(user_name: *const u16, domain: *const u16, password: *const u16, logon_type: u32, logon_provider: u32, token: *mut HANDLE) -> BOOL",
+          "crate": "windows::Win32::Security",
+          "ownership_notes": "Caller must close handle with CloseHandle",
+          "safety": "Credentials in plaintext; implement SecureString equivalent with secrecy crate"
+        }
+      ]
+    }
+  },
+  "tricky_patterns": [
+    {
+      "pattern": "reflection_based_cli_routing",
+      "location": "Program.cs:424-494",
+      "description": "Uses Reflection to dynamically invoke methods by name: typeof(PowerView).GetMethod(methodName).Invoke()",
+      "c_sharp_code": "var method = typeof(PowerView).GetMethod(methodName); var ret = method.Invoke(null, new[] { argObject });",
+      "mitigation": "Replace with compile-time code generation using procedural macros or match statement mapping method names to functions",
+      "rust_strategy": "Use clap derive macro for CLI parsing; dispatch via match statement or inventory crate for registration pattern",
+      "security_impact": "None - eliminates reflection attack surface"
+    },
+    {
+      "pattern": "dynamic_type_conversion",
+      "location": "Program.cs:441-485",
+      "description": "TypeDescriptor.GetConverter() for runtime type conversion from strings to arbitrary types",
+      "c_sharp_code": "TypeConverter tc = TypeDescriptor.GetConverter(pinfo.PropertyType); var argValue = tc.ConvertFromString(strValue);",
+      "mitigation": "Use FromStr trait and match/dispatch based on expected types; clap handles this automatically",
+      "rust_strategy": "Leverage clap's automatic string→type conversion via FromStr trait implementations"
+    },
+    {
+      "pattern": "p_invoke_with_manual_marshalling",
+      "location": "Utils/NativeMethods.cs:109-394",
+      "description": "28 DllImport declarations with complex marshalling: IntPtr, out params, StructLayout, MarshalAs attributes",
+      "mitigation": "Use windows crate for type-safe bindings; wrap unsafe calls in safe abstractions with RAII cleanup",
+      "rust_strategy": "1) Prefer windows::Win32::* bindings over manual declarations. 2) Wrap in safe functions that handle encoding (UTF-16), memory management (NetApiBufferFree), and error handling. 3) Use ManuallyDrop/MaybeUninit for out params",
+      "safety_critical": true,
+      "examples": [
+        {
+          "api": "DsEnumerateDomainTrusts",
+          "issue": "Caller must free returned buffer with NetApiBufferFree",
+          "rust_pattern": "RAII wrapper struct that calls NetApiBufferFree in Drop"
+        },
+        {
+          "api": "LogonUser",
+          "issue": "Returns token handle that must be closed; password in plaintext",
+          "rust_pattern": "Return HandleGuard that CloseHandle on drop; use secrecy::SecretString for password"
+        },
+        {
+          "api": "WNetAddConnection2",
+          "issue": "Credential exposure in struct",
+          "rust_pattern": "Zero credentials after use; mark function as audit-required"
+        }
+      ]
+    },
+    {
+      "pattern": "ldap_directory_services_abstraction",
+      "location": "PowerView.cs:32-198 (Get_DomainSearcher)",
+      "description": "Uses System.DirectoryServices.DirectorySearcher and DirectoryEntry for LDAP queries",
+      "c_sharp_libs": [
+        "System.DirectoryServices",
+        "System.DirectoryServices.ActiveDirectory"
+      ],
+      "mitigation": "Use ldap3 crate for cross-platform LDAP; windows crate for Windows-specific AD APIs",
+      "rust_strategy": "1) ldap3::LdapConn for LDAP operations. 2) windows::Win32::NetworkManagement::NetApi32 for AD-specific APIs. 3) Abstract behind trait for testability",
+      "cross_platform_note": "Linux support limited to LDAP protocol; some Windows AD features require native APIs (unavailable on Linux)"
+    },
+    {
+      "pattern": "wmi_queries",
+      "location": "Utils/WmiWrapper.cs",
+      "description": "Uses System.Management for WMI queries (Windows-only)",
+      "mitigation": "Use wmi crate for Windows; stub/error on Linux",
+      "rust_strategy": "Feature-gate WMI functionality: #[cfg(target_os = \"windows\")]",
+      "cross_platform_note": "WMI unavailable on Linux; functions will return NotSupported error"
+    },
+    {
+      "pattern": "object_reflection_serialization",
+      "location": "Utils/ObjectDumper.cs:70-217",
+      "description": "Uses reflection to introspect objects and print properties: o.GetType().GetMembers()",
+      "mitigation": "Use serde for structured serialization; Debug trait for debugging output",
+      "rust_strategy": "1) Derive Debug for all types. 2) Implement Display for user-facing output. 3) Use serde_json for structured output option",
+      "benefit": "Type-safe serialization vs runtime reflection"
+    },
+    {
+      "pattern": "yield_return_for_lazy_iteration",
+      "location": "PowerView.cs (various Get_* methods)",
+      "description": "Methods return IEnumerable<T> with yield return for lazy evaluation",
+      "c_sharp_code": "foreach (var result in searchResults) { yield return ProcessResult(result); }",
+      "mitigation": "Return Iterator trait or collect into Vec",
+      "rust_strategy": "1) Return impl Iterator<Item = T> for memory efficiency. 2) Provide .collect() option for Vec<T>. 3) Use streaming where possible",
+      "performance_note": "Iterator trait provides zero-cost lazy evaluation"
+    },
+    {
+      "pattern": "nullable_reference_types",
+      "location": "All argument and return types",
+      "description": "Extensive use of nullable types: string (nullable), int?, DateTime?, etc.",
+      "mitigation": "Map to Option<T> consistently",
+      "rust_strategy": "1) string → Option<String>. 2) int? → Option<i32>. 3) Required params → non-Option types. 4) Use #[serde(skip_serializing_if = \"Option::is_none\")] for clean JSON"
+    },
+    {
+      "pattern": "network_credential_handling",
+      "location": "Arguments (Credential property), Utils/NetworkCredentialConverter.cs",
+      "description": "System.Net.NetworkCredential for username/password; stored in plaintext in memory",
+      "mitigation": "Use secrecy crate to protect credentials in memory; zeroize on drop",
+      "rust_strategy": "1) Define NetworkCredential struct with SecretString for password. 2) Implement Zeroize trait. 3) Mark password field with #[zeroize(skip)] in serialization. 4) Document that credentials are sensitive",
+      "security_critical": true
+    },
+    {
+      "pattern": "com_interop",
+      "location": "SharpView.csproj:247-256 (ActiveDs COM reference), Enums/ADSNameType.cs",
+      "description": "COM reference to ActiveDs library for ADS_NAME_TYPE_ENUM",
+      "mitigation": "Hard-code enum values from COM type library; use windows crate bindings if available",
+      "rust_strategy": "Define enum with #[repr(u32)] and explicit discriminants matching COM values; no runtime COM dependency needed"
+    },
+    {
+      "pattern": "exception_based_control_flow",
+      "location": "Throughout PowerView.cs (try/catch blocks)",
+      "description": "C# uses exceptions for error handling; catch blocks for control flow",
+      "mitigation": "Use Result<T, E> with thiserror for structured errors",
+      "rust_strategy": "1) Define SharpViewError enum with variants for each error category. 2) Use ? operator for propagation. 3) Implement From<T> for error conversions. 4) Log errors with tracing crate",
+      "benefit": "Explicit error handling, no hidden control flow"
+    },
+    {
+      "pattern": "regex_with_pcre",
+      "location": "PowerView.cs (System.Text.RegularExpressions), Dependencies (PCRE.NET 0.7.0)",
+      "description": "Uses .NET Regex and PCRE.NET library for pattern matching",
+      "mitigation": "Use regex crate (Rust-native) or pcre2 crate for compatibility",
+      "rust_strategy": "Use regex crate by default; test for compatibility with original patterns",
+      "compatibility_note": "Rust regex is not 100% compatible with .NET/PCRE; may need adjustments"
+    }
+  ],
+  "prioritized_files": [
+    {
+      "phase": 1,
+      "name": "Foundation Types",
+      "rationale": "Establish data structures with no dependencies",
+      "files": [
+        "SharpView/Enums/*.cs → src/enums/*.rs (17 files, ~800 LOC)",
+        "SharpView/Interfaces/*.cs → src/traits/*.rs (2 files, ~50 LOC)",
+        "SharpView/Returns/ResolvedSID.cs → src/returns/resolved_sid.rs (base type)",
+        "SharpView/Utils/Logger.cs → src/utils/logger.rs"
+      ],
+      "deliverable": "Compile-clean foundation types and enums",
+      "tests": "Unit tests for enum conversions, trait implementations"
+    },
+    {
+      "phase": 2,
+      "name": "Return Types",
+      "rationale": "Build on foundation types, required by public API",
+      "files": [
+        "SharpView/Returns/*.cs → src/returns/*.rs (47 files, ~1300 LOC)"
+      ],
+      "deliverable": "All return types with serde serialization",
+      "tests": "Serialization/deserialization round-trip tests"
+    },
+    {
+      "phase": 3,
+      "name": "Argument Types",
+      "rationale": "Input parameter structs needed for public API",
+      "files": [
+        "SharpView/Arguments/*.cs → src/args/*.rs (80 files, ~3900 LOC)"
+      ],
+      "deliverable": "All argument types with validation and builders",
+      "tests": "Builder validation tests, CLI parsing integration tests"
+    },
+    {
+      "phase": 4,
+      "name": "Utilities & Extensions",
+      "rationale": "Helper functions needed by core logic",
+      "files": [
+        "SharpView/Utils/StringExtension.cs → src/utils/string_ext.rs",
+        "SharpView/Utils/ValidationExtension.cs → src/utils/validation.rs",
+        "SharpView/Utils/ObjectDumper.cs → src/utils/output.rs",
+        "SharpView/Utils/WmiWrapper.cs → src/utils/wmi.rs",
+        "SharpView/Utils/*.cs → src/utils/*.rs (remaining files)"
+      ],
+      "deliverable": "Complete utility library",
+      "tests": "Unit tests for each utility function"
+    },
+    {
+      "phase": 5,
+      "name": "Native Bindings (Windows)",
+      "rationale": "FFI layer for Windows APIs, highest risk",
+      "files": [
+        "SharpView/Utils/NativeMethods.cs → src/native/mod.rs + submodules"
+      ],
+      "deliverable": "Safe wrappers around Windows APIs with RAII guards",
+      "tests": "Integration tests on Windows target; safety invariant tests",
+      "review_required": "Manual security review of all unsafe blocks"
+    },
+    {
+      "phase": 6,
+      "name": "Core Logic - Simple Methods",
+      "rationale": "Start with methods with fewest dependencies",
+      "files": [
+        "PowerView.cs: TestMethod, ConvertFrom_SID, ConvertTo_SID, Resolve_IPAddress (5-20 LOC each)"
+      ],
+      "deliverable": "10-15 simple utility methods working",
+      "tests": "Unit tests with mocked dependencies"
+    },
+    {
+      "phase": 7,
+      "name": "Core Logic - LDAP/Directory Methods",
+      "rationale": "Core AD enumeration functionality",
+      "files": [
+        "PowerView.cs: Get_DomainSearcher, Get_Domain, Get_DomainUser, Get_DomainGroup, Get_DomainComputer (core ~500 LOC)"
+      ],
+      "deliverable": "Basic AD enumeration working",
+      "tests": "Integration tests against test AD environment",
+      "fixtures": "Docker container with test AD setup or mocked LDAP server"
+    },
+    {
+      "phase": 8,
+      "name": "Core Logic - Network/Session Methods",
+      "rationale": "Network enumeration functions",
+      "files": [
+        "PowerView.cs: Get_NetSession, Get_NetShare, Get_NetLoggedon, Get_NetLocalGroup, etc. (~800 LOC)"
+      ],
+      "deliverable": "Network enumeration functionality",
+      "tests": "Integration tests with test network shares/sessions"
+    },
+    {
+      "phase": 9,
+      "name": "Core Logic - Advanced Methods",
+      "rationale": "Complex functions with multiple dependencies",
+      "files": [
+        "PowerView.cs: Find_DomainUserLocation, Find_InterestingDomainShareFile, Invoke_Kerberoast, etc. (~1500 LOC)"
+      ],
+      "deliverable": "Advanced recon features",
+      "tests": "End-to-end integration tests"
+    },
+    {
+      "phase": 10,
+      "name": "Core Logic - ACL/GPO Methods",
+      "rationale": "Security descriptor and policy functions",
+      "files": [
+        "PowerView.cs: Get_DomainObjectAcl, Add_DomainObjectAcl, Get_DomainGPO, etc. (~1000 LOC)"
+      ],
+      "deliverable": "ACL and GPO enumeration/modification",
+      "tests": "Integration tests with test AD, privilege checks"
+    },
+    {
+      "phase": 11,
+      "name": "CLI Interface",
+      "rationale": "User-facing CLI, depends on all core functionality",
+      "files": [
+        "SharpView/Program.cs → src/main.rs + src/cli.rs"
+      ],
+      "deliverable": "Full CLI with clap-based argument parsing",
+      "tests": "CLI integration tests, help text validation"
+    },
+    {
+      "phase": 12,
+      "name": "Cross-Platform Compatibility",
+      "rationale": "Linux support where possible",
+      "files": [
+        "Feature gates, Linux LDAP support, error stubs for Windows-only features"
+      ],
+      "deliverable": "Compiles on Linux with subset of features",
+      "tests": "Linux build validation, feature flag testing"
+    }
+  ],
+  "tests_spec": {
+    "unit_tests": [
+      {
+        "id": "UT-001",
+        "category": "enums",
+        "description": "Enum variant count and serialization",
+        "example": "Test UACEnum has all flags, serializes to correct u32 values",
+        "assertion": "UACEnum::ACCOUNTDISABLE as u32 == 0x0002"
+      },
+      {
+        "id": "UT-002",
+        "category": "args",
+        "description": "Argument validation in builders",
+        "example": "ArgGetDomainUser::builder().result_page_size(50000).build() returns Err",
+        "assertion": "Error variant is ValidationError::OutOfRange"
+      },
+      {
+        "id": "UT-003",
+        "category": "returns",
+        "description": "Return type serde round-trip",
+        "example": "Serialize Acl to JSON, deserialize, assert equality",
+        "assertion": "original == serde_json::from_str(&serde_json::to_string(&original)?)?",
+        "required_for": "All return types"
+      },
+      {
+        "id": "UT-004",
+        "category": "utils",
+        "description": "String extension methods",
+        "example": "\"LongString\".shorten(5) == \"Long…\"",
+        "assertion": "Output matches expected format"
+      },
+      {
+        "id": "UT-005",
+        "category": "native",
+        "description": "RAII handle cleanup",
+        "example": "Create HandleGuard, verify CloseHandle called on drop",
+        "method": "Use mock or count CloseHandle calls"
+      }
+    ],
+    "integration_tests": [
+      {
+        "id": "IT-001",
+        "category": "ldap",
+        "description": "Connect to test LDAP server",
+        "fixture": "Docker container with OpenLDAP + sample data",
+        "input": "ArgGetDomain { domain: Some(\"test.local\".into()), credential: None }",
+        "expected_output": "Domain { name: \"test.local\", ... }",
+        "platforms": ["windows", "linux"]
+      },
+      {
+        "id": "IT-002",
+        "category": "ad_enumeration",
+        "description": "Enumerate domain users",
+        "fixture": "Test AD with 3 known users",
+        "input": "ArgGetDomainUser::default()",
+        "expected_output": "Vec with >= 3 DomainUser entries",
+        "platforms": ["windows"],
+        "privileges": "Domain user account"
+      },
+      {
+        "id": "IT-003",
+        "category": "network",
+        "description": "Enumerate network shares",
+        "fixture": "Test server with 2 known shares (IPC$, TestShare)",
+        "input": "ArgGetNetShare { computer_name: Some(\"testserver\".into()) }",
+        "expected_output": "Vec with ShareInfo entries including \"TestShare\"",
+        "platforms": ["windows"]
+      },
+      {
+        "id": "IT-004",
+        "category": "cli",
+        "description": "CLI method dispatch",
+        "input": "sharpview-rs get-domainuser --domain test.local",
+        "expected_output": "JSON array or formatted output with user entries",
+        "assertion": "Exit code 0, stdout contains valid output"
+      },
+      {
+        "id": "IT-005",
+        "category": "error_handling",
+        "description": "Graceful failure on invalid credentials",
+        "input": "ArgGetDomain with invalid credential",
+        "expected_output": "Err(SharpViewError::AuthenticationFailed)",
+        "assertion": "No panic, structured error"
+      }
+    ],
+    "security_tests": [
+      {
+        "id": "ST-001",
+        "category": "credential_handling",
+        "description": "Password not leaked in debug output",
+        "test": "Create NetworkCredential, assert Debug impl doesn't expose password",
+        "assertion": "format!(\"{:?}\", cred) does not contain password text"
+      },
+      {
+        "id": "ST-002",
+        "category": "credential_handling",
+        "description": "Password zeroized on drop",
+        "test": "Allocate NetworkCredential, get pointer to password memory, drop, verify zeroed",
+        "method": "Requires unsafe inspection; manual test"
+      },
+      {
+        "id": "ST-003",
+        "category": "privilege_escalation",
+        "description": "Admin-required methods check privileges",
+        "test": "Call Add_DomainObjectAcl without admin rights",
+        "expected": "Err(SharpViewError::InsufficientPrivileges) or underlying API error"
+      },
+      {
+        "id": "ST-004",
+        "category": "input_validation",
+        "description": "LDAP filter injection resistance",
+        "input": "ArgGetDomainUser { ldap_filter: Some(\"(|(uid=*)(uid=*)\") }",
+        "test": "Verify filter is validated or escaped properly",
+        "assertion": "No arbitrary LDAP injection"
+      }
+    ],
+    "test_fixtures": [
+      {
+        "name": "test_ad_docker",
+        "type": "Docker container",
+        "description": "Windows Server Core with AD DS role, pre-populated with test OUs, users, groups",
+        "setup_cmd": "docker-compose -f tests/fixtures/ad/docker-compose.yml up -d",
+        "teardown_cmd": "docker-compose -f tests/fixtures/ad/docker-compose.yml down"
+      },
+      {
+        "name": "mock_ldap_server",
+        "type": "Mock server",
+        "description": "ldap3-mock or similar for unit testing LDAP queries",
+        "library": "ldap3::LdapMockClient"
+      },
+      {
+        "name": "test_credentials",
+        "type": "Config file",
+        "description": "Non-sensitive test credentials stored in tests/credentials.toml (gitignored)",
+        "format": "{ domain = \"test.local\", username = \"testuser\", password = \"P@ssw0rd123\" }"
+      }
+    ]
+  },
+  "verification_commands": [
+    {
+      "phase": "1-4",
+      "description": "Verify foundation, types, and utils compile",
+      "commands": [
+        "cargo build --workspace",
+        "cargo test --workspace --lib"
+      ],
+      "success_criteria": "Exit code 0, no compilation errors"
+    },
+    {
+      "phase": "5",
+      "description": "Verify native bindings compile on Windows",
+      "commands": [
+        "cargo build --target x86_64-pc-windows-msvc --features native",
+        "cargo test --target x86_64-pc-windows-msvc --features native --lib"
+      ],
+      "success_criteria": "Exit code 0 on Windows host"
+    },
+    {
+      "phase": "6-10",
+      "description": "Verify core logic compiles and unit tests pass",
+      "commands": [
+        "cargo build --workspace",
+        "cargo test --workspace",
+        "cargo clippy --workspace -- -D warnings"
+      ],
+      "success_criteria": "All tests pass, no clippy warnings"
+    },
+    {
+      "phase": "11",
+      "description": "Verify CLI binary works",
+      "commands": [
+        "cargo build --release",
+        "./target/release/sharpview-rs --help",
+        "./target/release/sharpview-rs get-domain --help"
+      ],
+      "success_criteria": "Help text displays, exit code 0"
+    },
+    {
+      "phase": "12",
+      "description": "Verify cross-platform compilation",
+      "commands": [
+        "cargo build --target x86_64-unknown-linux-gnu",
+        "cargo test --target x86_64-unknown-linux-gnu"
+      ],
+      "success_criteria": "Compiles on Linux, LDAP tests pass"
+    },
+    {
+      "command": "cargo fmt -- --check",
+      "description": "Verify code formatting",
+      "phase": "all",
+      "success_criteria": "No formatting issues"
+    },
+    {
+      "command": "cargo audit",
+      "description": "Verify no known vulnerabilities in dependencies",
+      "phase": "all",
+      "success_criteria": "No high/critical vulnerabilities"
+    },
+    {
+      "command": "cargo deny check",
+      "description": "Verify license compliance and supply chain",
+      "phase": "all",
+      "success_criteria": "All licenses approved, no banned dependencies"
+    }
+  ],
+  "external_crates": {
+    "required": [
+      {
+        "name": "clap",
+        "version": "4.x",
+        "purpose": "CLI argument parsing",
+        "license": "MIT OR Apache-2.0",
+        "popularity": "Very high (rust-lang ecosystem)",
+        "security_rationale": "Official Rust project, widely audited"
+      },
+      {
+        "name": "serde",
+        "version": "1.x",
+        "purpose": "Serialization framework",
+        "license": "MIT OR Apache-2.0",
+        "popularity": "Very high (de facto standard)",
+        "security_rationale": "Core Rust library, extensively audited"
+      },
+      {
+        "name": "serde_json",
+        "version": "1.x",
+        "purpose": "JSON serialization for output",
+        "license": "MIT OR Apache-2.0",
+        "popularity": "Very high",
+        "security_rationale": "Maintained by serde team"
+      },
+      {
+        "name": "thiserror",
+        "version": "1.x",
+        "purpose": "Error type derivation",
+        "license": "MIT OR Apache-2.0",
+        "popularity": "Very high",
+        "security_rationale": "dtolnay library, industry standard"
+      },
+      {
+        "name": "anyhow",
+        "version": "1.x",
+        "purpose": "Error handling in application code",
+        "license": "MIT OR Apache-2.0",
+        "popularity": "Very high",
+        "security_rationale": "dtolnay library"
+      },
+      {
+        "name": "tracing",
+        "version": "0.1",
+        "purpose": "Structured logging for observability",
+        "license": "MIT",
+        "popularity": "High (Tokio project)",
+        "security_rationale": "Official Tokio project, well-maintained"
+      },
+      {
+        "name": "tracing-subscriber",
+        "version": "0.3",
+        "purpose": "Logging output formatting",
+        "license": "MIT",
+        "popularity": "High",
+        "security_rationale": "Tokio project"
+      }
+    ],
+    "windows_only": [
+      {
+        "name": "windows",
+        "version": "0.58",
+        "purpose": "Type-safe Windows API bindings",
+        "license": "MIT OR Apache-2.0",
+        "popularity": "High (official Microsoft crate)",
+        "security_rationale": "Official Microsoft Rust bindings, replaces manual P/Invoke",
+        "features": [
+          "Win32_NetworkManagement_NetManagement",
+          "Win32_Security",
+          "Win32_System_RemoteDesktop",
+          "Win32_Foundation",
+          "Win32_System_Memory"
+        ]
+      },
+      {
+        "name": "wmi",
+        "version": "0.13",
+        "purpose": "WMI query interface",
+        "license": "MIT OR Apache-2.0",
+        "popularity": "Medium",
+        "security_rationale": "Well-maintained, Windows-specific"
+      }
+    ],
+    "platform_agnostic": [
+      {
+        "name": "ldap3",
+        "version": "0.11",
+        "purpose": "LDAP protocol client (cross-platform)",
+        "license": "MIT",
+        "popularity": "Medium",
+        "security_rationale": "Pure Rust LDAP implementation",
+        "note": "For Linux support and Windows LDAP as fallback"
+      },
+      {
+        "name": "regex",
+        "version": "1.x",
+        "purpose": "Regular expression matching",
+        "license": "MIT OR Apache-2.0",
+        "popularity": "Very high",
+        "security_rationale": "rust-lang ecosystem, widely used"
+      },
+      {
+        "name": "chrono",
+        "version": "0.4",
+        "purpose": "Date/time handling",
+        "license": "MIT OR Apache-2.0",
+        "popularity": "Very high",
+        "security_rationale": "De facto standard for datetime in Rust"
+      },
+      {
+        "name": "secrecy",
+        "version": "0.10",
+        "purpose": "Protect credentials in memory",
+        "license": "Apache-2.0 OR MIT",
+        "popularity": "Medium",
+        "security_rationale": "Security-focused crate by RustCrypto, implements zeroization",
+        "security_critical": true
+      },
+      {
+        "name": "zeroize",
+        "version": "1.x",
+        "purpose": "Securely zero memory",
+        "license": "Apache-2.0 OR MIT",
+        "popularity": "High",
+        "security_rationale": "RustCrypto project, audited",
+        "security_critical": true
+      }
+    ],
+    "development": [
+      {
+        "name": "proptest",
+        "version": "1.x",
+        "purpose": "Property-based testing",
+        "license": "MIT OR Apache-2.0",
+        "dev_only": true
+      },
+      {
+        "name": "mockall",
+        "version": "0.13",
+        "purpose": "Mock generation for testing",
+        "license": "MIT OR Apache-2.0",
+        "dev_only": true
+      }
+    ]
+  },
+  "security_analysis": {
+    "authorization_context": "This tool is designed for authorized penetration testing, security research, CTF competitions, and defensive security operations. Misuse for unauthorized access is illegal and unethical.",
+    "legitimate_use_cases": [
+      "Authorized penetration testing engagements with signed contracts",
+      "Security research in controlled lab environments",
+      "CTF competitions and training exercises",
+      "Red team operations authorized by organization management",
+      "Security audits and compliance assessments",
+      "Educational demonstrations with consent"
+    ],
+    "prohibited_use_cases": [
+      "Unauthorized network reconnaissance",
+      "Credential theft or misuse",
+      "Privilege escalation on systems without authorization",
+      "Malicious lateral movement",
+      "Data exfiltration",
+      "Deployment as malware component"
+    ],
+    "security_enhancements_in_rust_port": [
+      {
+        "enhancement": "Memory safety",
+        "description": "Rust eliminates buffer overflows, use-after-free, and data races present in C#/.NET runtime",
+        "impact": "Reduces exploitability if tool is compromised"
+      },
+      {
+        "enhancement": "Credential protection",
+        "description": "Use secrecy crate to prevent credential leakage in memory dumps, debug output, and swap",
+        "implementation": "SecretString for passwords, zeroize on drop"
+      },
+      {
+        "enhancement": "No reflection",
+        "description": "Eliminates reflection-based attacks and code injection vectors",
+        "implementation": "Compile-time dispatch replaces runtime reflection"
+      },
+      {
+        "enhancement": "Explicit error handling",
+        "description": "Result types make all error paths explicit, no hidden exceptions",
+        "implementation": "thiserror enums, no panic in library code"
+      },
+      {
+        "enhancement": "Dependency auditing",
+        "description": "cargo-audit and cargo-deny for supply chain security",
+        "implementation": "CI checks for vulnerabilities and license compliance"
+      },
+      {
+        "enhancement": "Minimal privilege principle",
+        "description": "Document required privileges for each function; fail fast if insufficient",
+        "implementation": "Privilege checks before sensitive operations"
+      },
+      {
+        "enhancement": "Audit logging",
+        "description": "Structured logging with tracing for forensic analysis",
+        "implementation": "Log all network operations, credential usage, privilege escalation attempts"
+      },
+      {
+        "enhancement": "No obfuscation",
+        "description": "Open source, auditable code with no anti-analysis techniques",
+        "rationale": "Defensive tool, not malware; transparency builds trust"
+      }
+    ],
+    "refused_features": [
+      {
+        "feature": "Credential dumping from LSASS",
+        "reason": "Not present in SharpView; out of scope for AD recon tool"
+      },
+      {
+        "feature": "Process injection or code execution",
+        "reason": "Not present in SharpView; would violate defensive security principles"
+      },
+      {
+        "feature": "Anti-forensics or log clearing",
+        "reason": "Contradicts audit trail requirements"
+      },
+      {
+        "feature": "Persistence mechanisms",
+        "reason": "Tool should be run interactively, not installed covertly"
+      },
+      {
+        "feature": "Encryption or obfuscation of output",
+        "reason": "Output should be auditable; JSON for transparency"
+      }
+    ],
+    "privilege_requirements": {
+      "minimum": "Standard domain user account for basic enumeration",
+      "elevated": {
+        "Add_DomainObjectAcl": "Requires WriteProperty or GenericAll on target object",
+        "Set_DomainUserPassword": "Requires extended right to reset passwords",
+        "Invoke_UserImpersonation": "Requires SeImpersonatePrivilege (typically admin)",
+        "Get_NetSession": "Requires admin access to remote host (Server Operators or Administrators)",
+        "Get_WMIProcess": "Requires DCOM/WMI permissions on remote host"
+      },
+      "documentation": "Each function will document required privileges in rustdoc; runtime checks where feasible"
+    },
+    "audit_trail": {
+      "logging_strategy": "All operations logged at INFO level with structured fields (target, user, operation, result)",
+      "log_retention": "User responsibility; recommend centralized SIEM for enterprise use",
+      "sensitive_data_handling": "Passwords never logged; log credential usage events only (who/when/where)",
+      "formats": "JSON lines for SIEM ingestion, human-readable for console"
+    }
+  },
+  "ci_cd_requirements": {
+    "build_matrix": [
+      {
+        "platform": "windows-latest",
+        "target": "x86_64-pc-windows-msvc",
+        "required_features": ["full", "native", "wmi"]
+      },
+      {
+        "platform": "ubuntu-latest",
+        "target": "x86_64-unknown-linux-gnu",
+        "required_features": ["ldap"]
+      }
+    ],
+    "required_checks": [
+      "cargo build --workspace --all-features",
+      "cargo test --workspace --all-features",
+      "cargo clippy --workspace --all-features -- -D warnings",
+      "cargo fmt -- --check",
+      "cargo audit",
+      "cargo deny check licenses",
+      "cargo deny check bans"
+    ],
+    "coverage_target": "70% for phase 1-10, 80% for final release",
+    "documentation": "cargo doc --no-deps --all-features; host on docs.rs"
+  },
+  "future_enhancements": {
+    "phase_13_async": {
+      "description": "Convert blocking I/O to async for performance",
+      "crates": ["tokio", "async-ldap"],
+      "benefit": "Concurrent operations on multiple targets"
+    },
+    "phase_14_tui": {
+      "description": "Optional TUI for interactive exploration",
+      "crates": ["ratatui"],
+      "benefit": "User-friendly interactive mode"
+    },
+    "phase_15_json_output": {
+      "description": "Structured JSON output mode for scripting",
+      "implementation": "Already planned with serde_json"
+    },
+    "phase_16_plugin_system": {
+      "description": "Plugin architecture for custom enumeration modules",
+      "implementation": "dlopen or WASM-based plugins",
+      "security_concern": "Requires careful sandboxing"
+    }
+  }
+}
