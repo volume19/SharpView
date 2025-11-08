@@ -1,5 +1,6 @@
 //! Enumeration types used throughout SharpView
 
+pub mod access_control_type;
 pub mod ads_name_type;
 pub mod class_type;
 pub mod dns_record_type;
@@ -22,7 +23,9 @@ pub mod trust_direction;
 pub mod trust_type;
 pub mod uac_flag;
 pub mod version;
+pub mod wts_connect_state;
 
+pub use access_control_type::AccessControlType;
 pub use ads_name_type::AdsNameType;
 pub use class_type::ClassType;
 pub use dns_record_type::DnsRecordType;
@@ -45,3 +48,4 @@ pub use trust_direction::TrustDirection;
 pub use trust_type::TrustType;
 pub use uac_flag::UacFlag;
 pub use version::Version;
+pub use wts_connect_state::WtsConnectState;
