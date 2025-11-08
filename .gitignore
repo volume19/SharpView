@@ -327,3 +327,8 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder
 .mfractor/
+# Rust build artifacts
+target/
+Cargo.lock
+**/*.rs.bk
+*.pdb
