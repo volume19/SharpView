@@ -1,25 +1,39 @@
 //! Enumeration types used throughout SharpView
 
+pub mod ads_name_type;
+pub mod class_type;
+pub mod group_property;
 pub mod group_scope;
 pub mod group_type;
 pub mod local_group_type;
 pub mod logon_provider;
 pub mod logon_type;
+pub mod manager_type;
 pub mod method_type;
 pub mod rights;
 pub mod sam_account_type;
 pub mod search_scope;
+pub mod spn_ticket_format;
+pub mod stealth_source;
 pub mod trust_attribute;
 pub mod uac_flag;
+pub mod version;
 
+pub use ads_name_type::AdsNameType;
+pub use class_type::ClassType;
+pub use group_property::GroupProperty;
 pub use group_scope::GroupScope;
 pub use group_type::GroupTypeFlag;
 pub use local_group_type::LocalGroupType;
 pub use logon_provider::LogonProvider;
 pub use logon_type::LogonType;
+pub use manager_type::ManagerType;
 pub use method_type::MethodType;
 pub use rights::Rights;
 pub use sam_account_type::SamAccountType;
 pub use search_scope::SearchScope;
+pub use spn_ticket_format::SpnTicketFormat;
+pub use stealth_source::StealthSource;
 pub use trust_attribute::TrustAttributeFlag;
 pub use uac_flag::UacFlag;
+pub use version::Version;
