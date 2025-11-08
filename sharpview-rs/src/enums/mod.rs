@@ -2,6 +2,7 @@
 
 pub mod ads_name_type;
 pub mod class_type;
+pub mod dns_record_type;
 pub mod group_property;
 pub mod group_scope;
 pub mod group_type;
@@ -21,6 +22,7 @@ pub mod version;
 
 pub use ads_name_type::AdsNameType;
 pub use class_type::ClassType;
+pub use dns_record_type::DnsRecordType;
 pub use group_property::GroupProperty;
 pub use group_scope::GroupScope;
 pub use group_type::GroupTypeFlag;

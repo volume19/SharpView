@@ -14,5 +14,7 @@
 //! Unauthorized use is illegal and unethical.
 
 pub mod enums;
+pub mod traits;
 
 pub use enums::*;
+pub use traits::*;
