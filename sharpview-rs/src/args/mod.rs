@@ -1,19 +1,37 @@
 //! Argument types for SharpView operations
 
 pub mod args_convert_from_uac_value;
+pub mod args_convert_to_sid;
 pub mod args_get_domain;
 pub mod args_get_domain_computer;
+pub mod args_get_domain_controller;
+pub mod args_get_domain_gpo;
 pub mod args_get_domain_group;
 pub mod args_get_domain_object;
+pub mod args_get_domain_ou;
 pub mod args_get_domain_searcher;
+pub mod args_get_domain_trust;
 pub mod args_get_domain_user;
+pub mod args_get_forest;
+pub mod args_get_net_local_group;
+pub mod args_get_net_loggedon;
+pub mod args_get_net_session;
 pub mod network_credential;
 
 pub use args_convert_from_uac_value::ArgsConvertFromUacValue;
+pub use args_convert_to_sid::ArgsConvertToSid;
 pub use args_get_domain::ArgsGetDomain;
 pub use args_get_domain_computer::ArgsGetDomainComputer;
+pub use args_get_domain_controller::ArgsGetDomainController;
+pub use args_get_domain_gpo::ArgsGetDomainGpo;
 pub use args_get_domain_group::ArgsGetDomainGroup;
 pub use args_get_domain_object::ArgsGetDomainObject;
+pub use args_get_domain_ou::ArgsGetDomainOu;
 pub use args_get_domain_searcher::ArgsGetDomainSearcher;
+pub use args_get_domain_trust::ArgsGetDomainTrust;
 pub use args_get_domain_user::ArgsGetDomainUser;
+pub use args_get_forest::ArgsGetForest;
+pub use args_get_net_local_group::ArgsGetNetLocalGroup;
+pub use args_get_net_loggedon::ArgsGetNetLoggedon;
+pub use args_get_net_session::ArgsGetNetSession;
 pub use network_credential::NetworkCredential;
